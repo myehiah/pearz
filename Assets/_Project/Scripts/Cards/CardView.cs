@@ -31,29 +31,34 @@ public class CardView : MonoBehaviour
     public void Flip()
     {
         StopAllCoroutines();
-        StartCoroutine(FlipRoutine());
+        StartCoroutine(FlipRoutine(flipDuration));
     }
 
-    private IEnumerator FlipRoutine()
+    public IEnumerator FlipRoutine(float duration)
     {
-        // todo: fix lerp animation
+        float t = 0f;
+        Vector3 startScale = transform.localScale;
+        Vector3 endScale = new Vector3(0f, startScale.y, startScale.z);
 
-        for (float t = 0; t < 1f; t += Time.deltaTime / flipDuration)
+        while (t < 1f)
         {
-            float scaleX = Mathf.Lerp(1f, 0f, t);
-            transform.localScale = new Vector3(scaleX, 1f, 1f);
+            t += Time.deltaTime / (duration / 2f);
+            transform.localScale = Vector3.Lerp(startScale, endScale, t);
             yield return null;
         }
+        transform.localScale = endScale;
 
         IsFaceUp = !IsFaceUp;
         frontImage.gameObject.SetActive(IsFaceUp);
         backImage.gameObject.SetActive(!IsFaceUp);
 
-        for (float t = 0; t < 1f; t += Time.deltaTime / flipDuration)
+        t = 0f;
+        while (t < 1f)
         {
-            float scaleX = Mathf.Lerp(0f, 1f, t);
-            transform.localScale = new Vector3(scaleX, 1f, 1f);
+            t += Time.deltaTime / (duration / 2f);
+            transform.localScale = Vector3.Lerp(endScale, startScale, t);
             yield return null;
         }
+        transform.localScale = startScale;
     }
 }
