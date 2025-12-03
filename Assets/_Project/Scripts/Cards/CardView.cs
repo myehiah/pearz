@@ -14,11 +14,18 @@ public class CardView : MonoBehaviour
 
     public bool IsFaceUp { get; private set; }
 
+    private Card card;
+
     void Start()
     {
         frontImage.gameObject.SetActive(false);
         backImage.gameObject.SetActive(true);
         IsFaceUp = false;
+    }
+
+    public void SetCard(Card card)
+    {
+        this.card = card;
     }
 
     public void Flip()
@@ -29,6 +36,8 @@ public class CardView : MonoBehaviour
 
     private IEnumerator FlipRoutine()
     {
+        // todo: fix lerp animation
+
         for (float t = 0; t < 1f; t += Time.deltaTime / flipDuration)
         {
             float scaleX = Mathf.Lerp(1f, 0f, t);
