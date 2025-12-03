@@ -444,6 +444,8 @@ MonoBehaviour:
   currentGrid:
     rows: 2
     cols: 3
+    horizontalSpacing: 5
+    verticalSpacing: 5
 --- !u!1 &1627386949
 GameObject:
   m_ObjectHideFlags: 0
