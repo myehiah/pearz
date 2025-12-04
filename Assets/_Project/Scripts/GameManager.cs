@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public int totalPairs = 0;
     public int matchedPairs = 0;
     public int score = 0;
+    public int combo = 0;
 
     private void Awake()
     {
@@ -49,8 +50,11 @@ public class GameManager : MonoBehaviour
 
     public void OnPairMatched()
     {
+        AudioManager.Instance.PlaySFX(SFX.Match);
+
         matchedPairs++;
-        score += pointsPerMatch;
+        combo++;
+        score += pointsPerMatch * combo;
         UpdateUI();
 
         if (matchedPairs >= totalPairs && totalPairs > 0)
@@ -61,6 +65,10 @@ public class GameManager : MonoBehaviour
 
     public void OnPairMismatch()
     {
+        AudioManager.Instance.PlaySFX(SFX.Mismatch);
+
+        combo = 0;
+
         if (penaltyPerMismatch != 0)
         {
             score = Mathf.Max(0, score - penaltyPerMismatch); //max to prevent negative score
@@ -73,6 +81,7 @@ public class GameManager : MonoBehaviour
         if (uiController != null)
         {
             uiController.SetScore(score);
+            uiController.SetCombo(combo);
             uiController.SetProgress(matchedPairs, totalPairs);
         }
     }
@@ -86,6 +95,7 @@ public class GameManager : MonoBehaviour
     private void ResetState()
     {
         matchedPairs = 0;
+        combo = 0;
         score = 0;
         UpdateUI();
     }

@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
 {
     [Header("UI References")]
     public Text scoreText;
+    public Text comboText;
     public Text progressText;
     public GameObject scoreScreen;
     public GameObject winScreen;
@@ -38,10 +39,16 @@ public class UIController : MonoBehaviour
         hardButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Hard));
     }
 
-    public void SetScore(int value)
+    public void SetScore(int score)
     {
         if (scoreText != null)
-            scoreText.text = $"Score: {value}";
+            scoreText.text = $"Score: {score}";
+    }
+
+    public void SetCombo(int combo)
+    {
+        if (comboText != null)
+            comboText.text = combo > 1 ? "Combo x" + combo : "";
     }
 
     public void SetProgress(int matched, int totalPairs)

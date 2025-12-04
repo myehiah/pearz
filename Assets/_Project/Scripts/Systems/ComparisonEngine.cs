@@ -58,8 +58,6 @@ public class ComparisonEngine : MonoBehaviour
 
             if (isMatch)
             {
-                AudioManager.Instance.PlaySFX(SFX.Match);
-
                 first.SetMatched();
                 second.SetMatched();
 
@@ -67,8 +65,6 @@ public class ComparisonEngine : MonoBehaviour
             }
             else
             {
-                AudioManager.Instance.PlaySFX(SFX.Mismatch);
-
                 GameManager.Instance.OnPairMismatch();
 
                 yield return new WaitForSeconds(mismatchRevealDuration);
