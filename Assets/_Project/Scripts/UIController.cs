@@ -8,17 +8,34 @@ public class UIController : MonoBehaviour
     [Header("UI References")]
     public Text scoreText;
     public Text progressText;
+    public GameObject scoreScreen;
     public GameObject winScreen;
+    public GameObject startScreen;
     public Button restartButton;
+    public Button levelSelectButton;
+    public Button easyButton;
+    public Button mediumButton;
+    public Button hardButton;
 
     private void Awake()
     {
-        if (winScreen != null) winScreen.SetActive(false);
+        HideScore();
+        HideWin();
         if (restartButton != null)
         {
             restartButton.onClick.RemoveAllListeners();
             restartButton.onClick.AddListener(OnRestartClicked);
         }
+
+        if (levelSelectButton != null)
+        {
+            levelSelectButton.onClick.RemoveAllListeners();
+            levelSelectButton.onClick.AddListener(OnLevelSelectClicked);
+        }
+
+        easyButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Easy));
+        mediumButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Medium));
+        hardButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Hard));
     }
 
     public void SetScore(int value)
@@ -38,10 +55,51 @@ public class UIController : MonoBehaviour
         if (winScreen != null) winScreen.SetActive(true);
     }
 
+    public void HideWin()
+    {
+        if (winScreen != null) winScreen.SetActive(false);
+    }
+
+    public void ShowScore()
+    {
+        if (scoreScreen != null) scoreScreen.SetActive(true);
+    }
+
+    public void HideScore()
+    {
+        if (scoreScreen != null) scoreScreen.SetActive(false);
+    }
+
     private void OnRestartClicked()
     {
-        winScreen?.SetActive(false);
+        HideWin();
         GameManager.Instance.RestartGame();
     }
 
+    private void OnLevelSelectClicked()
+    {
+        HideWin();
+        HideScore();
+        GameManager.Instance.LevelSelect();
+        ShowStartMenu();
+    }
+
+    public void ShowStartMenu()
+    {
+        if (startScreen != null)
+            startScreen.SetActive(true);
+    }
+
+    public void HideStartMenu()
+    {
+        if (startScreen != null)
+            startScreen.SetActive(false);
+    }
+
+    public void StartGame()
+    {
+        HideStartMenu();
+        HideWin();
+        ShowScore();
+    }
 }

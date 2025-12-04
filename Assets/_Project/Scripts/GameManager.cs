@@ -6,16 +6,23 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public DeckManager deckManager;
+    public ComparisonEngine comparisonEngine;
+    public UIController uiController;
+
     [Header("Scoring")]
     public int pointsPerMatch = 100;
     public int penaltyPerMismatch = 50;
+
+    [Header("Levels")]
+    public Grid easyGrid = new Grid { rows = 2, cols = 2 };
+    public Grid mediumGrid = new Grid { rows = 3, cols = 4 };
+    public Grid hardGrid = new Grid { rows = 4, cols = 4 };
 
     [Header("State (read-only)")]
     public int totalPairs = 0;
     public int matchedPairs = 0;
     public int score = 0;
-
-    public UIController uiController;
 
     private void Awake()
     {
@@ -72,7 +79,6 @@ public class GameManager : MonoBehaviour
 
     private void OnWin()
     {
-        Debug.Log("GameManager: YOU WIN!");
         if (uiController != null) uiController.ShowWin();
         AudioManager.Instance.PlaySFX(SFX.Win);
     }
@@ -87,10 +93,45 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         ResetState();
-        FindObjectOfType<ComparisonEngine>().ResetEngine();
-        FindObjectOfType<DeckManager>().ResetBoard();
+        comparisonEngine.ResetEngine();
+        deckManager.ResetBoard();
 
         UpdateUI();
     }
-}
 
+    public void LevelSelect()
+    {
+        ResetState();
+        comparisonEngine.ResetEngine();
+        deckManager.ClearBoard();
+
+        SetTotalPairs(0);
+
+        UpdateUI();
+    }
+
+    public Grid GetGrid(Difficulty difficulty)
+    {
+        switch (difficulty)
+        {
+            case Difficulty.Easy: return easyGrid;
+            case Difficulty.Medium: return mediumGrid;
+            case Difficulty.Hard: return hardGrid;
+        }
+        return mediumGrid;
+    }
+
+    public void StartGame(Difficulty difficulty)
+    {
+        ResetState();
+
+        Grid gridLevel = GetGrid(difficulty);
+
+        deckManager.currentGrid = gridLevel;
+        deckManager.GenerateBoard();
+
+        SetTotalPairs(gridLevel.TotalCards / 2);
+
+        uiController?.StartGame();
+    }
+}

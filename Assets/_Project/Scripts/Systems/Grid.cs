@@ -10,7 +10,7 @@ public struct Grid
     public float horizontalSpacing;
     public float verticalSpacing;
 
-    public Grid(int rows, int cols, float horizontalSpacing = 0, float verticalSpacing = 0)
+    public Grid(int rows, int cols, float horizontalSpacing = 5, float verticalSpacing = 5)
     {
         this.rows = rows;
         this.cols = cols;

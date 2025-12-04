@@ -18,25 +18,22 @@ public class DeckManager : MonoBehaviour
 
     void Start()
     {
-        GenerateBoard(currentGrid);
+        //GenerateBoard(currentGrid);
     }
 
-    public void GenerateBoard(Grid grid)
+    public void GenerateBoard()
     {
         ClearBoard();
 
-        int numberOfCards = grid.TotalCards;
+        int numberOfCards = currentGrid.TotalCards;
         cards = CreateCardList(numberOfCards);
 
-        int numberOfPairs = numberOfCards / 2;
-        GameManager.Instance.SetTotalPairs(numberOfPairs);
-
-        gridManager.CalculateGrid(grid, out Vector2 cardSize, out Vector2[,] positions);
+        gridManager.CalculateGrid(currentGrid, out Vector2 cardSize, out Vector2[,] positions);
 
         int index = 0;
-        for (int r = 0; r < grid.rows; r++)
+        for (int r = 0; r < currentGrid.rows; r++)
         {
-            for (int c = 0; c < grid.cols; c++)
+            for (int c = 0; c < currentGrid.cols; c++)
             {
                 Card card = cards[index];
 
@@ -78,7 +75,7 @@ public class DeckManager : MonoBehaviour
         return cardList;
     }
 
-    private void ClearBoard()
+    public void ClearBoard()
     {
         foreach (var view in cardViews)
             if (view != null) Destroy(view.gameObject);
@@ -89,7 +86,7 @@ public class DeckManager : MonoBehaviour
 
     public void ResetBoard()
     {
-        GenerateBoard(currentGrid);
+        GenerateBoard();
     }
 }
 
