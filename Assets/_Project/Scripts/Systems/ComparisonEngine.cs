@@ -51,8 +51,8 @@ public class ComparisonEngine : MonoBehaviour
 
             float firstDuration = first.FlipDuration;
             float secondDuration = second.FlipDuration;
-            float delay = Mathf.Max(firstDuration, secondDuration) + postFlipBuffer;
-            yield return new WaitForSeconds(delay);
+            float flipDelay = Mathf.Max(firstDuration, secondDuration) + postFlipBuffer;
+            yield return new WaitForSeconds(flipDelay);
 
             bool isMatch = first.Card.faceId == second.Card.faceId;
 
@@ -72,8 +72,7 @@ public class ComparisonEngine : MonoBehaviour
                 first.Hide();
                 second.Hide();
 
-                float hideWait = Mathf.Max(first.FlipDuration, second.FlipDuration) + postFlipBuffer;
-                yield return new WaitForSeconds(hideWait);
+                yield return new WaitForSeconds(flipDelay);
 
                 first.Card.Unlock();
                 second.Card.Unlock();
@@ -82,5 +81,21 @@ public class ComparisonEngine : MonoBehaviour
         }
 
         checkerCoroutine = null;
+    }
+
+    public void ResetEngine()
+    {
+        ClearSelectedCards();
+    }
+
+    private void ClearSelectedCards()
+    {
+        selectedCards.Clear();
+        selectedIds.Clear();
+        if (checkerCoroutine != null)
+        {
+            StopCoroutine(checkerCoroutine);
+            checkerCoroutine = null;
+        }
     }
 }

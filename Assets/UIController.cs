@@ -9,10 +9,16 @@ public class UIController : MonoBehaviour
     public Text scoreText;
     public Text progressText;
     public GameObject winScreen;
+    public Button restartButton;
 
     private void Awake()
     {
         if (winScreen != null) winScreen.SetActive(false);
+        if (restartButton != null)
+        {
+            restartButton.onClick.RemoveAllListeners();
+            restartButton.onClick.AddListener(OnRestartClicked);
+        }
     }
 
     public void SetScore(int value)
@@ -32,5 +38,10 @@ public class UIController : MonoBehaviour
         if (winScreen != null) winScreen.SetActive(true);
     }
 
-}
+    private void OnRestartClicked()
+    {
+        winScreen?.SetActive(false);
+        GameManager.Instance.RestartGame();
+    }
 
+}

@@ -86,5 +86,10 @@ public class DeckManager : MonoBehaviour
         cardViews.Clear();
         cards.Clear();
     }
+
+    public void ResetBoard()
+    {
+        GenerateBoard(currentGrid);
+    }
 }
 

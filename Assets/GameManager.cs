@@ -75,5 +75,21 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameManager: YOU WIN!");
         if (uiController != null) uiController.ShowWin();
     }
+
+    private void ResetState()
+    {
+        matchedPairs = 0;
+        score = 0;
+        UpdateUI();
+    }
+
+    public void RestartGame()
+    {
+        ResetState();
+        FindObjectOfType<ComparisonEngine>().ResetEngine();
+        FindObjectOfType<DeckManager>().ResetBoard();
+
+        UpdateUI();
+    }
 }
 
