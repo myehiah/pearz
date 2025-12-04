@@ -60,9 +60,13 @@ public class ComparisonEngine : MonoBehaviour
             {
                 first.SetMatched();
                 second.SetMatched();
+
+                GameManager.Instance.OnPairMatched();
             }
             else
             {
+                GameManager.Instance.OnPairMismatch();
+
                 yield return new WaitForSeconds(mismatchRevealDuration);
 
                 first.Hide();

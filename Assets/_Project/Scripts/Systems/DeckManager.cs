@@ -28,6 +28,9 @@ public class DeckManager : MonoBehaviour
         int numberOfCards = grid.TotalCards;
         cards = CreateCardList(numberOfCards);
 
+        int numberOfPairs = numberOfCards / 2;
+        GameManager.Instance.SetTotalPairs(numberOfPairs);
+
         gridManager.CalculateGrid(grid, out Vector2 cardSize, out Vector2[,] positions);
 
         int index = 0;
