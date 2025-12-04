@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1479390911580893630}
   - component: {fileID: 1479390911580893629}
   - component: {fileID: 1479390911580893627}
+  - component: {fileID: -714694214574852059}
   - component: {fileID: 1479390911580893631}
   m_Layer: 5
   m_Name: Card
@@ -63,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -126,7 +127,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1479390911580893631}
         m_TargetAssemblyTypeName: CardView, Assembly-CSharp
-        m_MethodName: Flip
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -136,6 +137,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!225 &-714694214574852059
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479390911580893625}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &1479390911580893631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frontImage: {fileID: 1479390912074315260}
   backImage: {fileID: 1479390911828522764}
+  canvasGroup: {fileID: -714694214574852059}
   flipDuration: 0.15
 --- !u!1 &1479390911828522762
 GameObject:

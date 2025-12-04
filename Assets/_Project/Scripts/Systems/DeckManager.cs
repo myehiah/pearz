@@ -8,6 +8,7 @@ public class DeckManager : MonoBehaviour
     public CardView cardPrefab;
     public GridManager gridManager;
     public RectTransform gameBoard;
+    public ComparisonEngine comparisonEngine;
 
     [Header("Current State")]
     public List<Card> cards = new List<Card>();
@@ -43,6 +44,7 @@ public class DeckManager : MonoBehaviour
 
                 view.name = card.faceId;
                 view.SetCard(card);
+                comparisonEngine.RegisterCard(view);
 
                 cardViews.Add(view);
                 index++;
