@@ -51,6 +51,7 @@ public class CardView : MonoBehaviour
 
         Card.FlipUp();
         StartCoroutine(FlipRoutine(true));
+        AudioManager.Instance.PlaySFX(SFX.Flip);
     }
 
     public void Hide()

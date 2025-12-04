@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameManager: YOU WIN!");
         if (uiController != null) uiController.ShowWin();
+        AudioManager.Instance.PlaySFX(SFX.Win);
     }
 
     private void ResetState()
