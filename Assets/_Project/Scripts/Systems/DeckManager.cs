@@ -21,12 +21,15 @@ public class DeckManager : MonoBehaviour
         //GenerateBoard(currentGrid);
     }
 
-    public void GenerateBoard()
+    public void GenerateBoard(bool clearAndShuffle = true)
     {
-        ClearBoard();
+        ClearBoard(clearAndShuffle);
 
-        int numberOfCards = currentGrid.TotalCards;
-        cards = CreateCardList(numberOfCards);
+        if (cards == null || cards.Count == 0)
+        {
+            int numberOfCards = currentGrid.TotalCards;
+            cards = CreateCardList(numberOfCards);
+        }
 
         gridManager.CalculateGrid(currentGrid, out Vector2 cardSize, out Vector2[,] positions);
 
@@ -75,18 +78,39 @@ public class DeckManager : MonoBehaviour
         return cardList;
     }
 
-    public void ClearBoard()
+    public void ClearBoard(bool includeCardModels = true)
     {
         foreach (var view in cardViews)
             if (view != null) Destroy(view.gameObject);
 
         cardViews.Clear();
-        cards.Clear();
+
+        if(includeCardModels)
+            cards.Clear();
     }
 
     public void ResetBoard()
     {
         GenerateBoard();
     }
+
+    public void RestoreCards(List<CardSaveData> savedCards)
+    {
+        List<Card> restoredCardList = new List<Card>();
+
+        foreach (var savedCard in savedCards)
+        {
+            var restoredCard = new Card(savedCard.id, savedCard.faceId);
+            restoredCard.isMatched = savedCard.isMatched;
+            restoredCard.isLocked = savedCard.isMatched;
+            restoredCard.isFaceUp = savedCard.isMatched;
+            restoredCardList.Add(restoredCard);
+        }
+
+        cards = restoredCardList;
+
+        GenerateBoard(clearAndShuffle: false);
+    }
+
 }
 

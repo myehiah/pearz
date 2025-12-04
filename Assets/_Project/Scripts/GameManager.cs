@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateUI();
+        HandelContinueButton();
     }
 
     public void SetTotalPairs(int pairs)
@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour
         score += pointsPerMatch * combo;
         UpdateUI();
 
+        SaveProgress();
+
         if (matchedPairs >= totalPairs && totalPairs > 0)
         {
             OnWin();
@@ -74,6 +76,8 @@ public class GameManager : MonoBehaviour
             score = Mathf.Max(0, score - penaltyPerMismatch); //max to prevent negative score
             UpdateUI();
         }
+
+        SaveProgress();
     }
 
     private void UpdateUI()
@@ -90,6 +94,8 @@ public class GameManager : MonoBehaviour
     {
         if (uiController != null) uiController.ShowWin();
         AudioManager.Instance.PlaySFX(SFX.Win);
+
+        SaveSystem.DeleteSave();
     }
 
     private void ResetState()
@@ -97,7 +103,11 @@ public class GameManager : MonoBehaviour
         matchedPairs = 0;
         combo = 0;
         score = 0;
+
+        SaveSystem.DeleteSave();
+
         UpdateUI();
+
     }
 
     public void RestartGame()
@@ -107,6 +117,8 @@ public class GameManager : MonoBehaviour
         deckManager.ResetBoard();
 
         UpdateUI();
+
+        SaveProgress();
     }
 
     public void LevelSelect()
@@ -118,6 +130,10 @@ public class GameManager : MonoBehaviour
         SetTotalPairs(0);
 
         UpdateUI();
+
+        SaveSystem.DeleteSave();
+
+        HandelContinueButton();
     }
 
     public Grid GetGrid(Difficulty difficulty)
@@ -142,6 +158,74 @@ public class GameManager : MonoBehaviour
 
         SetTotalPairs(gridLevel.TotalCards / 2);
 
+        uiController?.StartGame();
+
+        SaveProgress();
+    }
+
+    public void SaveGame()
+    {
+        SaveData data = BuildSaveData();
+        SaveSystem.Save(data);
+    }
+
+    public void SaveProgress()
+    {
+        SaveGame();
+    }
+
+    private SaveData BuildSaveData()
+    {
+        SaveData data = new SaveData();
+        Grid grid = deckManager.currentGrid;
+
+        data.grid = grid;
+
+        data.score = score;
+        data.currentCombo = combo;
+
+        data.cards = new List<CardSaveData>();
+
+        foreach (Card card in deckManager.cards)
+        {
+            data.cards.Add(new CardSaveData
+            {
+                id = card.id,
+                faceId = card.faceId,
+                isMatched = card.isMatched
+            });
+        }
+
+        return data;
+    }
+
+    public void HandelContinueButton()
+    {
+        if (SaveSystem.SaveExists())
+            uiController.ShowContinue();
+        else
+            uiController.HideContinue();
+    }
+
+    public void LoadGame()
+    {
+        SaveData data = SaveSystem.Load();
+        if (data == null) return;
+
+        // update GM
+        score = data.score;
+        combo = data.currentCombo;
+        matchedPairs = data.cards.FindAll(card => card.isMatched == true).Count / 2;
+        totalPairs = data.cards.Count / 2;
+
+        // update DM
+        deckManager.currentGrid = data.grid;
+        deckManager.RestoreCards(data.cards);
+
+        // update UI
+        uiController.SetScore(score);
+        uiController.SetCombo(combo);
+        uiController.SetProgress(matchedPairs, totalPairs);
         uiController?.StartGame();
     }
 }

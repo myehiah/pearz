@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     public GameObject startScreen;
     public Button restartButton;
     public Button levelSelectButton;
+    public Button continueButton;
     public Button easyButton;
     public Button mediumButton;
     public Button hardButton;
@@ -34,6 +35,11 @@ public class UIController : MonoBehaviour
             levelSelectButton.onClick.AddListener(OnLevelSelectClicked);
         }
 
+        if (continueButton != null)
+        {
+            continueButton.onClick.RemoveAllListeners();
+            continueButton.onClick.AddListener(OnContinueClicked);
+        }
         easyButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Easy));
         mediumButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Medium));
         hardButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Hard));
@@ -109,4 +115,12 @@ public class UIController : MonoBehaviour
         HideWin();
         ShowScore();
     }
+
+    public void OnContinueClicked()
+    {
+        GameManager.Instance.LoadGame();
+    }
+
+    public void ShowContinue() => continueButton.gameObject.SetActive(true);
+    public void HideContinue() => continueButton.gameObject.SetActive(false);
 }
