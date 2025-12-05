@@ -32,7 +32,8 @@ Progress is auto-saved so the game can be **continued after closing**.
 - 📱 UI auto-scales for iOS and macOS  
 - 🎨 Random sprite assignment to pairs  
 - 💪 Combo Scoring System  
-- ♻️ Restart and Level Select  
+- ♻️ Restart and Level Select
+- 📦 Zero third-party assets and frameworks
 
 ---
 
@@ -114,6 +115,8 @@ Progress is auto-saved so the game can be **continued after closing**.
 | Medium     | 3×4  | 12    | 6     |
 | Hard       | 4×4  | 16    | 8     |
 
+Larger grids are supported, requires additional sprites.
+
 ---
 
 ## 🖼 Sprite Assignment
@@ -142,3 +145,4 @@ Progress is auto-saved so the game can be **continued after closing**.
 - Grid constraints to avoid odd number of cards
 - Better Visuals
 - Pause Menu and Quit Button
+- Add fallback with random colors if number of available sprites is less than grid pairs
