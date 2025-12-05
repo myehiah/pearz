@@ -15,5 +15,6 @@ public class CardSaveData
 {
     public int id;
     public string faceId;
+    public string spriteName;
     public bool isMatched;
 }

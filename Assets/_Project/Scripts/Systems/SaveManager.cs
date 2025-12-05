@@ -42,6 +42,7 @@ public class SaveManager : MonoBehaviour
             {
                 id = card.id,
                 faceId = card.faceId,
+                spriteName = card.sprite.name,
                 isMatched = card.isMatched
             });
         }

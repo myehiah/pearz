@@ -1,10 +1,12 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class Card
 {
     public int id;
     public string faceId;
+    public Sprite sprite;
 
     public bool isMatched;
     public bool isFaceUp;

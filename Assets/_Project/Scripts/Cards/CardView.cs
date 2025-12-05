@@ -30,6 +30,7 @@ public class CardView : MonoBehaviour
     public void SetCard(Card card)
     {
         Card = card;
+        frontImage.sprite = card.sprite;
         frontImage.gameObject.SetActive(Card.isFaceUp);
         backImage.gameObject.SetActive(!Card.isFaceUp);
     }

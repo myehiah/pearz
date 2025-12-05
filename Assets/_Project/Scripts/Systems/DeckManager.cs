@@ -10,6 +10,9 @@ public class DeckManager : MonoBehaviour
     public RectTransform gameBoard;
     public ComparisonEngine comparisonEngine;
 
+    [Header("Card Sprites")]
+    public List<Sprite> sprites;
+
     [Header("Current State")]
     public List<Card> cards = new List<Card>();
     public List<CardView> cardViews = new List<CardView>();
@@ -54,13 +57,20 @@ public class DeckManager : MonoBehaviour
     {
         List<Card> cardList = new List<Card>();
 
+        // Fisher-Yates shuffle
+        for (int i = 0; i < sprites.Count; i++)
+        {
+            int rand = Random.Range(i, sprites.Count);
+            (sprites[i], sprites[rand]) = (sprites[rand], sprites[i]);
+        }
+
         int numberOfPairs = total / 2;
         int idCounter = 0;
 
         for (int i = 0; i < numberOfPairs; i++)
         {
-            cardList.Add(new Card(idCounter++, $"Face_{i}"));
-            cardList.Add(new Card(idCounter++, $"Face_{i}"));
+            cardList.Add(new Card(idCounter++, $"Face_{i}") { sprite = sprites[i] });
+            cardList.Add(new Card(idCounter++, $"Face_{i}") { sprite = sprites[i] });
         }
 
         // Fisher-Yates shuffle
@@ -96,6 +106,7 @@ public class DeckManager : MonoBehaviour
         foreach (var savedCard in savedCards)
         {
             var restoredCard = new Card(savedCard.id, savedCard.faceId);
+            restoredCard.sprite = FindSprite(savedCard.spriteName);
             restoredCard.isMatched = savedCard.isMatched;
             restoredCard.isLocked = savedCard.isMatched;
             restoredCard.isFaceUp = savedCard.isMatched;
@@ -105,6 +116,11 @@ public class DeckManager : MonoBehaviour
         cards = restoredCardList;
 
         GenerateBoard(clearAndShuffle: false);
+    }
+
+    private Sprite FindSprite(string spriteName)
+    {
+        return sprites.Find(sprite => sprite.name == spriteName);
     }
 
 }

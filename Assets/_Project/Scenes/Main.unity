@@ -982,7 +982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &965369777
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1358,18 +1358,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70061e147f02143fc92d085d5f2c76a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startScreen: {fileID: 175449896}
+  scoreScreen: {fileID: 368806632}
+  winScreen: {fileID: 1944123992}
   scoreText: {fileID: 1512217204}
   comboText: {fileID: 1429475722}
   progressText: {fileID: 1905305888}
-  scoreScreen: {fileID: 368806632}
-  winScreen: {fileID: 1944123992}
-  startScreen: {fileID: 175449896}
-  restartButton: {fileID: 1495810869}
-  levelSelectButton: {fileID: 1732048396}
   continueButton: {fileID: 766920854}
   easyButton: {fileID: 379923831}
   mediumButton: {fileID: 100340275}
   hardButton: {fileID: 577831970}
+  restartButton: {fileID: 1495810869}
+  levelSelectButton: {fileID: 1732048396}
 --- !u!1 &1381661565
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,6 +1820,15 @@ MonoBehaviour:
   gridManager: {fileID: 1166551100}
   gameBoard: {fileID: 1854362994}
   comparisonEngine: {fileID: 325870651}
+  sprites:
+  - {fileID: 21300000, guid: 657658414713b40c9b380bdff950bbb6, type: 3}
+  - {fileID: 21300000, guid: 685be31d5b7d147ba8be0941e2e6197a, type: 3}
+  - {fileID: 21300000, guid: 5222df4c59dce491c9bc99f857844627, type: 3}
+  - {fileID: 21300000, guid: 1b5d24c1b50ee49598de51a1a1d67441, type: 3}
+  - {fileID: 21300000, guid: 21bb11a7970594d489630e65751733f3, type: 3}
+  - {fileID: 21300000, guid: 69b15f486f2814426bd1c87912866bd7, type: 3}
+  - {fileID: 21300000, guid: 1da4fea0f98494dd8ac9de4f65a0292f, type: 3}
+  - {fileID: 21300000, guid: 0f58bc358945d4a3280cb2231cb509c2, type: 3}
   cards: []
   cardViews: []
   currentGrid:
