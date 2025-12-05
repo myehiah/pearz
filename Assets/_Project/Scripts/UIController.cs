@@ -5,82 +5,67 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    [Header("UI References")]
+    [Header("Screen References")]
+    public GameObject startScreen;
+    public GameObject scoreScreen;
+    public GameObject winScreen;
+
+    [Header("Scoring References")]
     public Text scoreText;
     public Text comboText;
     public Text progressText;
-    public GameObject scoreScreen;
-    public GameObject winScreen;
-    public GameObject startScreen;
-    public Button restartButton;
-    public Button levelSelectButton;
+
+    [Header("StartScreen References")]
     public Button continueButton;
     public Button easyButton;
     public Button mediumButton;
     public Button hardButton;
 
+    [Header("WinScreen References")]
+    public Button restartButton;
+    public Button levelSelectButton;
+
     private void Awake()
     {
+        ShowStartMenu();
         HideScore();
         HideWin();
-        if (restartButton != null)
-        {
-            restartButton.onClick.RemoveAllListeners();
-            restartButton.onClick.AddListener(OnRestartClicked);
-        }
 
-        if (levelSelectButton != null)
-        {
-            levelSelectButton.onClick.RemoveAllListeners();
-            levelSelectButton.onClick.AddListener(OnLevelSelectClicked);
-        }
-
-        if (continueButton != null)
-        {
-            continueButton.onClick.RemoveAllListeners();
-            continueButton.onClick.AddListener(OnContinueClicked);
-        }
-        easyButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Easy));
-        mediumButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Medium));
-        hardButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Hard));
+        SetupButtonListeners();
     }
 
-    public void SetScore(int score)
+    public void SetScore(int score) =>
+    scoreText.text = $"Score: {score}";
+
+    public void SetCombo(int combo) =>
+        comboText.text = combo > 1 ? $"Combo x{combo}" : "";
+
+    public void SetProgress(int matched, int total) =>
+        progressText.text = $"{matched} / {total} pairs";
+
+
+    public void ShowStartMenu() => startScreen.SetActive(true);
+    public void HideStartMenu() => startScreen.SetActive(false);
+    public void ShowScore() => scoreScreen.SetActive(true);
+    public void HideScore() => scoreScreen.SetActive(false);
+    public void ShowWin() => winScreen.SetActive(true);
+    public void HideWin() => winScreen.SetActive(false);
+    public void ShowContinue() => continueButton.gameObject.SetActive(true);
+    public void HideContinue() => continueButton.gameObject.SetActive(false);
+
+    public void UpdateContinueButton()
     {
-        if (scoreText != null)
-            scoreText.text = $"Score: {score}";
+        if (SaveSystem.SaveExists())
+            ShowContinue();
+        else
+            HideContinue();
     }
 
-    public void SetCombo(int combo)
+    public void StartGame()
     {
-        if (comboText != null)
-            comboText.text = combo > 1 ? "Combo x" + combo : "";
-    }
-
-    public void SetProgress(int matched, int totalPairs)
-    {
-        if (progressText != null)
-            progressText.text = $"{matched} / {totalPairs} pairs";
-    }
-
-    public void ShowWin()
-    {
-        if (winScreen != null) winScreen.SetActive(true);
-    }
-
-    public void HideWin()
-    {
-        if (winScreen != null) winScreen.SetActive(false);
-    }
-
-    public void ShowScore()
-    {
-        if (scoreScreen != null) scoreScreen.SetActive(true);
-    }
-
-    public void HideScore()
-    {
-        if (scoreScreen != null) scoreScreen.SetActive(false);
+        HideStartMenu();
+        HideWin();
+        ShowScore();
     }
 
     private void OnRestartClicked()
@@ -97,30 +82,21 @@ public class UIController : MonoBehaviour
         ShowStartMenu();
     }
 
-    public void ShowStartMenu()
-    {
-        if (startScreen != null)
-            startScreen.SetActive(true);
-    }
-
-    public void HideStartMenu()
-    {
-        if (startScreen != null)
-            startScreen.SetActive(false);
-    }
-
-    public void StartGame()
+    private void OnContinueClicked()
     {
         HideStartMenu();
-        HideWin();
-        ShowScore();
+        GameManager.Instance.Load();
     }
 
-    public void OnContinueClicked()
+    private void SetupButtonListeners()
     {
-        GameManager.Instance.LoadGame();
-    }
+        continueButton.onClick.AddListener(OnContinueClicked);
 
-    public void ShowContinue() => continueButton.gameObject.SetActive(true);
-    public void HideContinue() => continueButton.gameObject.SetActive(false);
+        easyButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Easy));
+        mediumButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Medium));
+        hardButton.onClick.AddListener(() => GameManager.Instance.StartGame(Difficulty.Hard));
+
+        restartButton.onClick.AddListener(OnRestartClicked);
+        levelSelectButton.onClick.AddListener(OnLevelSelectClicked);
+    }
 }

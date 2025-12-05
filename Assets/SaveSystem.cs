@@ -30,7 +30,7 @@ public static class SaveSystem
 
     public static void DeleteSave()
     {
-        if (File.Exists(filePath))
+        if (SaveExists())
             File.Delete(filePath);
     }
 }

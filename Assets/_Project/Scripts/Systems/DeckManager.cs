@@ -16,11 +16,6 @@ public class DeckManager : MonoBehaviour
 
     public Grid currentGrid = new Grid(2, 2);
 
-    void Start()
-    {
-        //GenerateBoard(currentGrid);
-    }
-
     public void GenerateBoard(bool clearAndShuffle = true)
     {
         ClearBoard(clearAndShuffle);
