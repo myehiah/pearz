@@ -10,7 +10,7 @@ The project uses clean architecture, robust saving/loading, and scalable gamepla
 ## 🛠 Unity Version
 
 - Unity **2021.3.45f2 LTS**
-- Platforms: **macOS, iOS** || *should work on Windows too, but not tested*
+- Platforms: **macOS, iOS** || *should work on Windows & Android too, but not tested*
 
 ---
 
